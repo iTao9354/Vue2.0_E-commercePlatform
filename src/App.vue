@@ -1,152 +1,113 @@
 <template>
   <div>
-    <!-- <p v-text="hello"></p>
-    <p v-html="hello"></p>
-    {{ hello }}
-    {{ status ? 'success' : 'fail' }} -->
+    <!-- 一、父子组件数据传递 -->
+    <!-- <comp-a number-to-do = 78></comp-a> -->
+    <!-- <input type="text" v-model="myVal">
+    <comp-a :my-value="myVal"></comp-a> -->
 
-    <!-- 二、列表循环之数组形式 -->
-    <!-- <ul> -->
-      <!-- <li v-for="item in lists">{{item.name}}的价格是{{item.price}}元</li> -->
-      <!-- <li v-for="item in lists" v-text="item.name + '---' + item.price"></li> -->
-      <!-- <li v-for="(item, index) in lists" :class="{odd: index % 2}">{{ index }}-{{ item.name }}的价格是{{ item.price }}元</li> -->
-    <!-- </ul> -->
+    <!-- 二、父子组件通信之slot插槽 -->
+    <!-- <comp-a :my-value="myVal">
+      <p>123</p>
+      <p slot="header">xxx header</p>
+      <p slot="footer">yyy footer</p>
+    </comp-a> -->
 
-    <!-- 三、列表循环之对象形式 -->
-    <!-- <ul> --> 
-      <!-- <li v-for="value in listObj">{{ value }}</li> -->
-      <!-- <li v-for="(value, key) in listObj">{{ key + value}}</li> -->
-    <!-- </ul> -->
+    <!-- 三、动态组件 -->
+    <!-- <keep-alive>
+      <p :is = "currentView"></p>
+    </keep-alive> -->
 
-    <!-- 四、子组件之间的相互引用及列表循环 -->
-    <!-- <componentA v-for="(value, key) in listObj" :key="key"></componentA> -->
+    <!-- 四、过渡/动画 -->
+    <!-- <button @click="show = !show">toggle</button>
+    <div>       -->
+      <!-- <transition name="fade">
+        <p v-show="show">this is toggle show</p>
+      </transition> -->
+      <!-- <transition name="my-trans">
+        <p v-show="show">this is toggle show</p>
+      </transition>
+    </div> -->
 
-    <!-- 五、列表数据的同步更新方法methods -->
-    <!-- <ul>
-      <li v-for="item in list">{{ item.name }} -- {{item.price}}</li>
-    </ul>
-    <button @click="addItem">addItem</button> -->
+    <!-- 五、过流动画 js实现过渡 -->
+    <!-- <button @click="toggleCom">toggle</button>
+    <transition name="fade" mode="out-in">
+      <div :is="currentView"></div>
+    </transition> -->
 
-    <!-- 六、用v-bind指令动态绑定vue标签属性 -->
-    <!-- <a :href="link" :title="hello" class="link-href" :class="classStr">to baidu</a> -->
-    <componentA :dataA = "dataA"></componentA>
-    <!-- <a class="link-href" :class="classObj">点我啊</a>   -->
-    <!-- <a class="link-href" :class="classArr">再点我啊</a> -->
-    <!-- <a class="link-href" :class="[classA, {'red-font': hasError}]">第三次点击</a> -->
-    <a :style="styleCss">测试内联样式</a>
+    <button @click="show = !show">toggle</button>
+    <transition name="fade" mode="out-in">
+      <p v-if="show" key="0">I am show</p>
+      <!-- <div v-else>I am not show</div> -->
+      <p v-else key="1">not in show</p>
+    </transition>
   </div>
 </template>
 
 <script>
-// 六、用v-bind指令动态绑定vue标签属性
-import componentA from './components/a'
+// 五、过流动画 js实现过渡
+import comA from './components/a'
+import comB from './components/b'
 export default {
-  components: {componentA},
+  components: {comA, comB},
   data () {
     return {
-      hello: 'world',
-      link: 'http://www.baidu.com',
-      dataA: 112,
-      classStr: 'red-font',
-      classObj: {
-        'red-font': true,
-        'blue-font': false
-      },
-      classArr: ['red-font', 'blue-font'],
-      classA: 'blue-font',
-      hasError: true,
-      styleCss: {
-        color: 'red',
-        'font-size': '30px'
+      currentView: 'com-b',
+      show: true
+    }
+  },
+  methods: {
+    toggleCom () {
+      if (this.currentView === 'com-a') {
+        this.currentView = 'com-b'
+      } else {
+        this.currentView = 'com-a'
       }
     }
   }
 }
 
-// // 五、列表数据的同步更新方法methods
-// import Vue from 'Vue'
+// // 四、过渡/动画
 // export default {
 //   data () {
 //     return {
-//       list: [
-//         {
-//           name: 'apple',
-//           price: 34
-//         },
-//         {
-//           name: 'banana',
-//           price: 56
-//         }
-//       ]
+//       show: true
 //     }
+//   }
+// }
+
+// // 三、动态组件
+// import comA from './components/a'
+// export default {
+//   components: {comA},
+//   data () {
+//     return {
+//       currentView: 'com-a'
+//     }
+//   }
+// }
+
+// // 二、父子组件通信之slot插槽
+// import compA from './components/a'
+// export default {
+//   components: {
+//     compA
 //   },
-//   methods: {
-//     addItem () {
-//       // this.list.push({name: 'pineapple', price: 78})
-//       // this.list[1] = {
-//       //   name: 'pineapple',
-//       //   price: 78
-//       // }
-//       Vue.set(this.list, 1, {
-//         name: 'pineapple',
-//         price: 78
-//       })
+//   data () {
+//     return {
+//       myVal: ''
 //     }
 //   }
 // }
 
+// // 一、父子组件数据传递
+// import compA from './components/a'
 // export default {
+//   components: {
+//     compA
+//   },
 //   data () {
 //     return {
-//       hello: '<span>world</span>',
-//       status: true
-//     }
-//   }
-// }
-
-// 二、列表循环之数组形式
-// export default {
-//   data () {
-//     return {
-//       lists: [
-//         {
-//           name: 'apple',
-//           price: 34
-//         },
-//         {
-//           name: 'banana',
-//           price: 56
-//         }
-//       ]
-//     }
-//   }
-// }
-
-// // 三、列表循环之对象形式
-// export default {
-//   data () {
-//     return {
-//       listObj: {
-//         name: 'apple',
-//         price: 34,
-//         weight: '100g'
-//       }
-//     }
-//   }
-// }
-
-// // 四、组件之间的相互引用
-//   // 引入子组件
-// import componentA from './components/a'
-// export default {
-//   components: {componentA},
-//   data () {
-//     return {
-//       listObj: {
-//         name: 'apple',
-//         price: 34,
-//         weight: '100g'
-//       }
+//       myVal: ''
 //     }
 //   }
 // }
@@ -154,12 +115,26 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+/* 四、过渡/动画 */
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: all .5s ease;
+}
+
+.my-trans-enter-active,
+.my-trans-leave-active {
+  transition: all 1s ease-out;
+}
+.my-trans-enter {
+  transform: translateY(-500px);
+  opacity: 0;
+}
+.my-trans-leave-active {
+  transform: translateY(500px);
+  opacity: 0;
 }
 </style>
