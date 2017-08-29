@@ -28,43 +28,117 @@
       </transition>
     </div> -->
 
-    <!-- 五、过流动画 js实现过渡 -->
+    <!-- 五、多元素过渡 -->
     <!-- <button @click="toggleCom">toggle</button>
     <transition name="fade" mode="out-in">
       <div :is="currentView"></div>
     </transition> -->
 
-    <button @click="show = !show">toggle</button>
+    <!-- <button @click="show = !show">toggle</button>
     <transition name="fade" mode="out-in">
-      <p v-if="show" key="0">I am show</p>
+      <p v-if="show" key="0">I am show</p> -->
       <!-- <div v-else>I am not show</div> -->
-      <p v-else key="1">not in show</p>
+      <!-- <p v-else key="1">not in show</p>
+    </transition> -->
+
+    <!-- 六、js动画过渡 -->
+    <!-- <transition 
+      @before-enter="beforeEnter"
+      @enter="enter"
+      @leave="leave"
+      :css="false">
+        <p class="animate-p" v-show="show">I am show</p>
     </transition>
+    <br><br><br><br><br>
+    <button @click="show = !show">toggle</button> -->
+
+    <!-- 七、自定义指令 -->
+    <p v-color="'red'">这是一个段落</p>
+    <p v-custom="'40px'">第二段</p>
+    <input type="text" v-focus>
   </div>
 </template>
 
 <script>
-// 五、过流动画 js实现过渡
-import comA from './components/a'
-import comB from './components/b'
+// 七、自定义指令
 export default {
-  components: {comA, comB},
-  data () {
-    return {
-      currentView: 'com-b',
-      show: true
-    }
-  },
-  methods: {
-    toggleCom () {
-      if (this.currentView === 'com-a') {
-        this.currentView = 'com-b'
-      } else {
-        this.currentView = 'com-a'
+  directives: {
+    color (el, binding) {
+      el.style.color = binding.value
+    },
+    custom: {
+      bind (el, binding) {
+
+      },
+      inserted (el, binding) {
+        el.style.fontSize = binding.value
+      }
+    },
+    focus: {
+      inserted (el, binding) {
+        el.focus()
       }
     }
   }
 }
+
+// // 六、js动画过渡
+// import $ from 'jquery'
+// export default {
+//   data () {
+//     return {
+//       show: true
+//     }
+//   },
+//   methods: {
+//     beforeEnter (el) {
+//       $(el).css({
+//         left: '-500px',
+//         opacity: 1
+//       })
+//     },
+//     enter (el, done) {
+//       $(el).stop().animate({
+//         left: 0,
+//         opacity: 1
+//       }, {
+//         duration: 1500,
+//         complete: done
+//       })
+//     },
+//     leave (el, done) {
+//       $(el).stop().animate({
+//         left: '500px',
+//         opacity: 0
+//       }, {
+//         duration: 1500,
+//         complete: done
+//       })
+//     }
+//   }
+// }
+
+// // 五、多元素过渡
+// import comA from './components/a'
+// import comB from './components/b'
+// export default {
+//   components: {comA, comB},
+//   data () {
+//     return {
+//       currentView: 'com-b',
+//       show: true
+//     }
+//   },
+//   methods: {
+//     toggleCom () {
+//       if (this.currentView === 'com-a') {
+//         this.currentView = 'com-b'
+//       } else {
+//         this.currentView = 'com-a'
+//       }
+//     }
+//   }
+// }
 
 // // 四、过渡/动画
 // export default {
@@ -115,8 +189,15 @@ export default {
 </script>
 
 <style>
+/* 六、js动画过渡 */
+.animate-p {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
 /* 四、过渡/动画 */
-.fade-enter,
+/* .fade-enter,
 .fade-leave-active {
   opacity: 0;
 }
@@ -136,5 +217,5 @@ export default {
 .my-trans-leave-active {
   transform: translateY(500px);
   opacity: 0;
-}
+} */
 </style>
