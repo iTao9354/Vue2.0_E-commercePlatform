@@ -53,34 +53,70 @@
     <button @click="show = !show">toggle</button> -->
 
     <!-- 七、自定义指令 -->
-    <p v-color="'red'">这是一个段落</p>
+    <!-- <p v-color="'red'">这是一个段落</p>
     <p v-custom="'40px'">第二段</p>
-    <input type="text" v-focus>
+    <input type="text" v-focus> -->
+
+    <!-- 八、路由、路由参数、路由嵌套 -->
+    <!-- <router-view></router-view>
+    <router-link :to="{'path': '/apple'}">to Apple</router-link>
+    <router-link :to="{'path': '/banana/red'}">to Redbanana </router-link> -->
+
+    <!-- 九、命名的路由视图 -->
+    <!-- <router-view name="bananaA"></router-view>
+    <router-view name="bananaB"></router-view> -->
+
+    <!-- 十、使用过渡制作路由跳转动画 -->
+    <!-- <transition name="fade">
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
+    </transition> -->
+
+    <!-- 十一、状态管理插件 vuex -->
+    {{ totalPrice }}
+    <apple></apple>
+    <banana></banana>
   </div>
 </template>
 
 <script>
-// 七、自定义指令
+// 十一、状态管理插件
+import Apple from './components/apple'
+import Banana from './components/banana'
 export default {
-  directives: {
-    color (el, binding) {
-      el.style.color = binding.value
-    },
-    custom: {
-      bind (el, binding) {
-
-      },
-      inserted (el, binding) {
-        el.style.fontSize = binding.value
-      }
-    },
-    focus: {
-      inserted (el, binding) {
-        el.focus()
-      }
+  components: {
+    Apple, Banana
+  },
+  computed: {
+    totalPrice () {
+      // return this.$store.state.totalPrice
+      return this.$store.getters.getTotal
     }
   }
 }
+
+// // 七、自定义指令
+// export default {
+//   directives: {
+//     color (el, binding) {
+//       el.style.color = binding.value
+//     },
+//     custom: {
+//       bind (el, binding) {
+
+//       },
+//       inserted (el, binding) {
+//         el.style.fontSize = binding.value
+//       }
+//     },
+//     focus: {
+//       inserted (el, binding) {
+//         el.focus()
+//       }
+//     }
+//   }
+// }
 
 // // 六、js动画过渡
 // import $ from 'jquery'
